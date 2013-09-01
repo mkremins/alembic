@@ -1,0 +1,2 @@
+defmodule Alembic do
+end

@@ -1,0 +1,12 @@
+# Elixir
+/ebin
+/deps
+erl_crash.dump
+*.ez
+
+# OS X
+.DS_Store
+
+# Sublime Text 2
+*.sublime-project
+*.sublime-workspace
