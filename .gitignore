@@ -2,6 +2,7 @@
 /ebin
 /deps
 erl_crash.dump
+*.beam
 *.ez
 
 # OS X
