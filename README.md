@@ -22,7 +22,7 @@ Since I'm new to this whole Elixir thing and there aren't a lot of Elixir apps o
 
 While I'm targeting the Minecraft protocol (or, at least, a strict subset of said protocol) at first, there's no reason why Alembic should be limited to the role of "another Minecraft server". In fact, there's a load of problems with the way the Minecraft client handles things, and I'd rather not tether my API to the limitations of a particular existing game.
 
-Ideally, somewhere down the line, anything you can do with a [Bukkit](http://bukkit.org) server you'll be able to do with Alembic – but, and this is the key part, you'll also be able to do things that Bukkit (being based on Minecraft) _doesn't_ allow. Spin up an Alembic instance that automatically parallelizes across loads of servers to run a voxel MMO? Build an Alembic client that runs in the browser on JavaScript? Sure, why the heck not?
+Ideally, somewhere down the line, anything you can do with a [Bukkit](http://bukkit.org) server you'll be able to do with Alembic – but, and this is the key part, you'll also be able to do things that Bukkit (being way too Minecraft-specific for my liking) _doesn't_ allow.
 
 License
 ----------------------------------------
