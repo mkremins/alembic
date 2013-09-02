@@ -2,7 +2,7 @@ defmodule Alembic.Server do
 	use GenServer.Behaviour
 
 	def init({host, port}) do
-		listening = Socket.TCP.listen! local: [address: host, port: port]
+		listening = Socket.TCP.listen(local: [address: host, port: port])
 		spawn fn ->
 			acceptor(listening, self)
 		end
