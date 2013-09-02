@@ -7,8 +7,9 @@ defmodule Alembic.Server do
 	"""
 	def init({host, port}) do
 		listening = Socket.TCP.listen(local: [address: host, port: port])
+		server_pid = self
 		spawn fn ->
-			acceptor(listening, self)
+			acceptor(listening, server_pid)
 		end
 	end
 
