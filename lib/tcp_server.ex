@@ -1,4 +1,11 @@
-defmodule Alembic.Server do
+defmodule Alembic.TCPServer do
+	@moduledoc """
+	TCP server listening for new connections on a particular hostname and port.
+	When a new client connects, the socket object representing the connection
+	is passed to the `Alembic.ClientSupervisor` module and a new client process
+	is spawned to handle packets sent over the link.
+	"""
+
 	use GenServer.Behaviour
 
 	@doc """
