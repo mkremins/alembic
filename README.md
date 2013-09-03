@@ -24,6 +24,15 @@ While I'm targeting the Minecraft protocol (or, at least, a strict subset of sai
 
 Ideally, somewhere down the line, anything you can do with a [Bukkit](http://bukkit.org) server you'll be able to do with Alembic – but, and this is the key part, you'll also be able to do things that Bukkit (being way too Minecraft-specific for my liking) _doesn't_ allow.
 
+Thanks to...
+----------------------------------------
+
+  * The [#mcdevs](http://mcdevs.org) folks, for maintaining the most exhaustive [documentation of the Minecraft protocol](http://wiki.vg/Protocol) I could possibly hope for.
+
+  * [clonejo](http://github.com/clonejo), for publishing the [mc-erl](http://github.com/clonejo/mc-erl) source code. mc-erl's architecture served as a partial reference to me when I was just starting out.
+
+  * [mrshankly](http://github.com/mrshankly), for publishing the [Mambo](http://github.com/mrshankly/mambo) source code. Mambo's extensibility model served as the primary inspiration for Alembic's plugin architecture.
+
 License
 ----------------------------------------
 
