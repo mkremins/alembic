@@ -11,7 +11,7 @@ defmodule Alembic.EventManager do
 	Starts the event manager. Returns `{:ok, pid}` on success.
 	"""
 	def start_link do
-		{:ok, pid} = :gen_event.start_link({:local, @manager})
+		{:ok, _pid} = :gen_event.start_link({:local, @manager})
 	end
 
 	@doc """

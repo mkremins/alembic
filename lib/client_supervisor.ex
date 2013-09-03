@@ -1,7 +1,7 @@
 defmodule Alembic.ClientSupervisor do
 	use Supervisor.Behaviour
 
-	def init do
+	def init(args) do
 		# TODO
 	end
 

@@ -8,6 +8,13 @@ defmodule Alembic.PluginLoader do
 	use Supervisor.Behaviour
 
 	@doc """
+	Initializes the plugin loader.
+	"""
+	def init(_args) do
+		load_plugins("./plugins")
+	end
+
+	@doc """
 	Loads the plugin defined by the file at the specified path. Returns
 	`{:ok, module}` on success, `{:error, reason}` on failure.
 	"""
@@ -77,8 +84,8 @@ defmodule Alembic.PluginLoader do
 	specified module, or `nil` if the module defines no method of that name.
 	"""
 	defp get_manifest(module) do
-		if Module.defines?(module, {:alembic_plugin, manifest}, :def) do
-			manifest
+		if Module.defines?(module, {:alembic_plugin, Any}, :def) do
+			module.alembic_plugin
 		else
 			nil
 		end

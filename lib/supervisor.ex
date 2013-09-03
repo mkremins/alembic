@@ -12,6 +12,11 @@ defmodule Alembic.Supervisor do
 	@doc """
 	Starts the supervisor. Returns `{:ok, pid}` on success.
 	"""
+	def start_link() do
+		{:ok, _pid} = :supervisor.start_link(__MODULE__, [])
+	end
+
+	@doc false
 	def init(args) do
 		tree = [
 			worker(Alembic.ClientSupervisor, args),

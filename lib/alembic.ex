@@ -8,7 +8,7 @@ defmodule Alembic do
 	@doc """
 	Starts the application.
 	"""
-	def start(_type, args) do
-		Alembic.Supervisor.start_link(args)
+	def start(_type, _args) do
+		Alembic.Supervisor.start_link()
 	end
 end
