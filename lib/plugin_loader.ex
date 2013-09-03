@@ -5,6 +5,8 @@ defmodule Alembic.PluginLoader do
 	en masse from a directory.
 	"""
 
+	use Supervisor.Behaviour
+
 	@doc """
 	Loads the plugin defined by the file at the specified path. Returns
 	`{:ok, module}` on success, `{:error, reason}` on failure.
