@@ -8,6 +8,11 @@ defmodule Alembic.TCPServer do
 
 	use GenServer.Behaviour
 
+	@doc false
+	def start_link do
+		:gen_server.start_link(__MODULE__, [], [])
+	end
+
 	@doc """
 	Starts the TCP server and spawns an acceptor process listening for incoming
 	connections on the specified hostname and port.

@@ -5,12 +5,17 @@ defmodule Alembic.PluginLoader do
 	en masse from a directory.
 	"""
 
-	use Supervisor.Behaviour
+	use GenServer.Behaviour
+
+	@doc false
+	def start_link do
+		:gen_server.start_link(__MODULE__, [], [])
+	end
 
 	@doc """
 	Initializes the plugin loader.
 	"""
-	def init(_args) do
+	def init(args) do
 		load_plugins("./plugins")
 	end
 

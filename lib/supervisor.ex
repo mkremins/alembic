@@ -9,18 +9,18 @@ defmodule Alembic.Supervisor do
 
 	use Supervisor.Behaviour
 
-	@doc """
-	Starts the supervisor. Returns `{:ok, pid}` on success.
-	"""
-	def start_link() do
-		{:ok, _pid} = :supervisor.start_link(__MODULE__, [])
+	@doc false
+	def start_link(args) do
+		:supervisor.start_link(__MODULE__, args)
 	end
 
-	@doc false
+	@doc """
+	Starts each of the primary server processes in turn.
+	"""
 	def init(args) do
 		tree = [
 			worker(Alembic.ClientSupervisor, args),
-			worker(Alembic.EventManager, args),
+			worker(Alembic.EventManager, args, modules: :dynamic),
 			worker(Alembic.PluginLoader, args),
 			worker(Alembic.TCPServer, args)
 		]
