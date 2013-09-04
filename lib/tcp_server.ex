@@ -43,7 +43,7 @@ defmodule Alembic.TCPServer do
 	the main server process of the existence of the new connection.
 	"""
 	defp acceptor(listening, pid) do
-		case Socket.TCP.accept!(listening) do
+		case Socket.TCP.accept(listening) do
 			{:ok, socket} ->
 				:gen_server.cast(pid, {:connect, socket})
 				acceptor(listening, pid)
