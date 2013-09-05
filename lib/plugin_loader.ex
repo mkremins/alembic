@@ -15,8 +15,9 @@ defmodule Alembic.PluginLoader do
 	@doc """
 	Initializes the plugin loader.
 	"""
-	def init(args) do
-		load_plugins("./plugins")
+	def init(_args) do
+		Enum.each Alembic.Config.get[:plugins], &load_plugins(&1)
+		{:ok, nil}
 	end
 
 	@doc """
