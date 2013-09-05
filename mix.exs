@@ -4,7 +4,7 @@ defmodule Alembic.Mixfile do
   def project do
     [ app: :alembic,
       version: "0.1.0",
-      elixir: "~> 0.10.1",
+      elixir: "~> 0.10.2",
       deps: deps ]
   end
 
@@ -16,6 +16,6 @@ defmodule Alembic.Mixfile do
   # Returns the list of dependencies in the format:
   # { :foobar, "~> 0.1", git: "https://github.com/elixir-lang/foobar.git" }
   defp deps do
-    [ {:socket, "0.1.3", [github: "meh/elixir-socket", tag: "v0.1.3"]} ]
+    [ {:socket, "0.2.0-dev", [github: "meh/elixir-socket"]} ]
   end
 end
