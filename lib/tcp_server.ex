@@ -15,12 +15,11 @@ defmodule Alembic.TCPServer do
 
 	@doc """
 	Starts the TCP server and spawns an acceptor process listening for incoming
-	connections on the specified hostname and port.
+	connections on the hostname and port specified by the server config.
 	"""
 	def init(_args) do
-		host = "127.0.0.1"
-		port = 25565
-		listening = Socket.TCP.listen(local: [address: host, port: port])
+		config = Alembic.Config.get
+		listening = Socket.TCP.listen(local: [address: config[:host], port: config[:port]])
 		server_pid = self
 		spawn fn ->
 			acceptor(listening, server_pid)
