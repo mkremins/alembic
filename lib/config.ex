@@ -24,15 +24,49 @@ defmodule Alembic.Config do
 
 	@doc """
 	Evaluates the Elixir script file at the specified path, returning the
-	configuration object the file defines.
+	configuration object the file defines. If the file does not exist, the
+	default configuration object will be written to that path and returned.
 	"""
 	defp read(filename) do
 		filename = Path.expand(filename)
 		case File.read(filename) do
 			{:ok, binary} ->
 				Code.eval_string(binary) |> elem(0)
+			{:error, :enoent} ->
+				write(filename, defaults)
 			{:error, reason} ->
-				{:error, reason}
+				{:error, format_error(reason)}
 		end
+	end
+
+	@doc """
+	Writes the specified configuration object to the specified path as an
+	Elixir script file.
+	"""
+	defp write(filename, config) do
+		filename = Path.expand(filename)
+		case File.write(filename, inspect config) do
+			:ok ->
+				config
+			{:error, reason} ->
+				{:error, format_error(reason)}
+		end
+	end
+
+	@doc """
+	Returns the default configuration object.
+	"""
+	defp defaults do
+		[ host: "127.0.0.1",
+	      port: 25565,
+	      plugins: ["./plugins"] ]
+	end
+
+	@doc """
+	Formats the reason returned with a filesystem error for improved
+	readability.
+	"""
+	defp format_error(reason) do
+		:file.format_error(reason)
 	end
 end
