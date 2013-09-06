@@ -3,7 +3,9 @@ defmodule Alembic.Mixfile do
 
   def project do
     [ app: :alembic,
-      version: "0.1.0",
+      version: "0.1.0-dev",
+      name: "Alembic",
+      source_url: "https://github.com/mkremins/alembic",
       elixir: "~> 0.10.2",
       deps: deps ]
   end
@@ -13,7 +15,8 @@ defmodule Alembic.Mixfile do
   end
 
   defp deps do
-    [ {:exactor, "0.1",       [github: "sasa1977/exactor"]},
-      {:socket,  "0.2.0-dev", [github: "meh/elixir-socket"]} ]
+    [ {:exactor, "0.1",       github: "sasa1977/exactor"},
+      {:ex_doc,  "0.1.0",     github: "elixir-lang/ex_doc"},
+      {:socket,  "0.2.0-dev", github: "meh/elixir-socket"} ]
   end
 end
