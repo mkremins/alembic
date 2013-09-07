@@ -31,8 +31,7 @@ defmodule Alembic.TCPServer do
 	future incoming traffic on the specified socket to that process.
 	"""
 	def handle_cast({:connect, socket}, state) do
-		client_pid = Alembic.ClientSupervisor.spawn_client(socket)
-		Socket.TCP.process(socket, client_pid)
+		Alembic.ClientSupervisor.spawn_client(socket)
 		{:noreply, state}
 	end
 
