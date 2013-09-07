@@ -30,9 +30,9 @@ defmodule Alembic.Minecraft.Protocol do
 	Reads a value of the specified type from the specified socket. Returns the
 	value that was read, raising an exception if something went wrong.
 
-	Strings, unlike other data types that we need to read, are of indeterminate
-	length. Therefore, we use a special `read!/2` clause to handle strings and
-	strings alone.
+	Strings, unlike most other data types that we need to read, are of
+	indeterminate length. Therefore, they are handled by a specialized clause
+	of the `read!/2` function.
 	"""
 	defp read!(:string, socket) do
 		case read!(:short, socket) do
@@ -40,8 +40,22 @@ defmodule Alembic.Minecraft.Protocol do
 				""
 			length ->
 				{:ok, bitstring} = socket.recv!(length * 2) do
-				bitstring # TODO: convert to utf-16
+				bitstring # TODO: convert to utf16
 		end
+	end
+
+	@doc """
+	Reads a value of the specified type from the specified socket. Returns the
+	value that was read, raising an exception if something went wrong.
+
+	Byte arrays, unlike most other data types that we need to read, are of
+	indeterminate length. Therefore, they are handled by a specialized clause
+	of the `read!/2` function.
+	"""
+	defp read!(:byte_array, socket) do
+		bytes = read!(:short, socket)
+		{:ok, bitstring} = socket.recv!(bytes)
+		bitstring # TODO: convert to byte array
 	end
 
 	@doc """

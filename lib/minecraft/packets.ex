@@ -111,12 +111,9 @@ defmodule Alembic.Minecraft.Packets do
 	defpacket 0xcd, [ status: :byte ]
 
 	defpacket 0xfa, [ channel: :string,
-					  message_length: :short,
 					  message: :byte_array ]
 
-	defpacket 0xfc, [ shared_secret_length: :short,
-					  shared_secret: :byte_array,
-					  verify_token_length: :short,
+	defpacket 0xfc, [ shared_secret: :byte_array,
 					  verify_token: :byte_array ]
 
 	defpacket 0xfe, [ ping: :byte ]
