@@ -20,7 +20,7 @@ defmodule Alembic.Minecraft.Protocol do
 		try do
 			packet_id = read!(:byte, socket)
 			{:ok, payload} = Packets.read_payload!(packet_id, socket)
-			_return = {:ok, Packets.parse_request(id, payload)}
+			_return = {:ok, Packets.parse_request(packet_id, payload)}
 		rescue
 			e in [RuntimeError] -> {:error, e.message}
 		end
@@ -39,7 +39,7 @@ defmodule Alembic.Minecraft.Protocol do
 			0 ->
 				""
 			length ->
-				{:ok, bitstring} = socket.recv!(length * 2) do
+				{:ok, bitstring} = socket.recv!(length * 2)
 				bitstring # TODO: convert to utf16
 		end
 	end
