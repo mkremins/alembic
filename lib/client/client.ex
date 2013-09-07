@@ -24,9 +24,10 @@ defmodule Alembic.Client do
 	end
 
 	@doc """
-	Called when the reader process successfully reads a packet from the socket.
+	Called when the reader process successfully reads a packet from the socket
+	and interprets the payload as a valid request.
 	"""
-	defcast packet(id, payload), state: state do
+	defcast request(request), state: state do
 		# TODO
 	end
 
@@ -53,9 +54,9 @@ defmodule Alembic.Client do
 	process and shuts down (if something went wrong).
 	"""
 	defp reader(client, socket) do
-		case Alembic.MinecraftProtocol.read_packet(socket) do
-			{:ok, {id, payload}} ->
-				client.packet(id, payload)
+		case Alembic.MinecraftProtocol.read_request(socket) do
+			{:ok, request} ->
+				client.request(request)
 				reader(client, socket)
 			{:error, :closed} ->
 				client.disconnect
