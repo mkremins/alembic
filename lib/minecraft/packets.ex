@@ -28,5 +28,5 @@ defmodule Alembic.Minecraft.Packets do
 					  z: :double,
 					  yaw: :float,
 					  pitch: :float,
-					  on_ground?: :float ]
+					  on_ground?: :bool ]
 end
