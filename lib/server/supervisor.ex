@@ -1,10 +1,7 @@
 defmodule Alembic.Supervisor do
 	@moduledoc """
-	Main supervisor. Supervises the following processes:
-	  * `Alembic.ClientSupervisor`
-	  * `Alembic.EventManager`
-	  * `Alembic.PluginLoader`
-	  * `Alembic.TCPServer`
+	Supervises the core server processes, acting as the root of the supervision
+	tree for the entire application.
 	"""
 
 	use Supervisor.Behaviour
