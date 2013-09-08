@@ -54,7 +54,7 @@ defmodule Alembic.Client do
 	process and shuts down (if something went wrong).
 	"""
 	defp reader(client, socket) do
-		case Alembic.MinecraftProtocol.read_request(socket) do
+		case Alembic.Minecraft.Protocol.read_request(socket) do
 			{:ok, request} ->
 				client.request(request)
 				reader(client, socket)
