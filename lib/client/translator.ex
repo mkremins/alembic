@@ -7,6 +7,11 @@ defmodule Alembic.Translator do
 
 	use Behaviour
 
+	@typep socket :: Socket.t
+	@typep request :: {atom, any}
+	@typep event :: {atom, any}
+	@typep reason :: String.t
+
 	@doc """
 	Reads a packet from the specified socket and interprets it as a request
 	that can be dispatched by the event manager and handled by plugins. Returns
