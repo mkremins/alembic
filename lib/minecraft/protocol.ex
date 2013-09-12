@@ -4,6 +4,8 @@ defmodule Alembic.Minecraft.Protocol do
 	actual, raw data that gets sent over a socket. 
 	"""
 
+	@behaviour Alembic.Translator
+
 	alias Alembic.Minecraft.Packets
 
 	@doc """
@@ -21,6 +23,20 @@ defmodule Alembic.Minecraft.Protocol do
 			packet_id = read!(:byte, socket)
 			{:ok, payload} = Packets.read_payload!(packet_id, socket)
 			_return = {:ok, Packets.parse_request(packet_id, payload)}
+		rescue
+			e in [RuntimeError] -> {:error, e.message}
+		end
+	end
+
+	@doc """
+	Encodes the event as a packet of the appropriate type and writes the packet
+	over the socket as a series of bytes. Returns `:ok` if the entire packet is
+	successfully written, `{:error, reason}` if something goes wrong.
+	"""
+	def write_event(socket, event) do
+		try do
+			# TODO
+			:ok
 		rescue
 			e in [RuntimeError] -> {:error, e.message}
 		end
