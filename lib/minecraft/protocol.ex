@@ -53,8 +53,7 @@ defmodule Alembic.Minecraft.Protocol do
 	of the `read!/2` function.
 	"""
 	defp read!(:byte_array, socket) do
-		bytes = read!(:short, socket)
-		{:ok, bitstring} = socket.recv!(bytes)
+		{:ok, bitstring} = read!(:short, socket) |> socket.recv!
 		bitstring # TODO: convert to byte array
 	end
 
@@ -63,8 +62,7 @@ defmodule Alembic.Minecraft.Protocol do
 	value that was read, raising an exception if something went wrong.
 	"""
 	defp read!(type, socket) do
-		bytes = byte_length(type)
-		{:ok, bitstring} = socket.recv!(bytes)
+		{:ok, bitstring} = byte_length(type) |> socket.recv!
 		format!(type, bitstring)
 	end
 
