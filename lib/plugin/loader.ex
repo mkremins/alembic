@@ -5,19 +5,18 @@ defmodule Alembic.PluginLoader do
 	en masse from a directory.
 	"""
 
-	use GenServer.Behaviour
+	use ExActor
 
-	@doc false
-	def start_link do
-		:gen_server.start_link(__MODULE__, [], [])
-	end
+	alias Alembic.Config
 
 	@doc """
 	Initializes the plugin loader.
 	"""
-	def init(_args) do
-		Enum.each Alembic.Config.get[:plugins], &load_plugins(&1)
-		{:ok, nil}
+	definit _ do
+		lc dirname inlist Config.get[:plugins] do
+			{:ok, plugins} = load_plugins(dirname)
+			{dirname, plugins}
+		end
 	end
 
 	@doc """
@@ -76,12 +75,12 @@ defmodule Alembic.PluginLoader do
 	"""
 	defp get_main_module(plugin_modules) do
 		main_module = nil
-		Enum.each(plugin_modules, fn(module) ->
+		Enum.each plugin_modules, fn(module) ->
 			manifest = get_manifest(module)
 			if manifest and !main_module do
 				main_module = module
 			end
-		end)
+		end
 		main_module
 	end
 
