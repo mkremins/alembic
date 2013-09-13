@@ -1,9 +1,14 @@
 defmodule Alembic.TCPServer do
 	@moduledoc """
-	TCP server listening for new connections on a particular hostname and port.
-	When a new client connects, the socket object representing the connection
-	is passed to the `Alembic.ClientSupervisor` module and a new client process
-	is spawned to handle packets sent over the link.
+	TCP server listening for new connections. When a client connects, a new
+	client process is spawned and given control of the socket over which the
+	connection was established.
+
+	In order to accomodate multiple different client protocols, each protocol
+	is associated in the server config file with a particular port. This module
+	spawns a separate acceptor process for each of these ports; as a result,
+	each client connecting to the server can be assigned a translator module
+	appropriate to its particular protocol before any packets are exchanged.
 	"""
 
 	use ExActor
