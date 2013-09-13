@@ -6,23 +6,25 @@ defmodule Alembic.TCPServer do
 	is spawned to handle packets sent over the link.
 	"""
 
-	use GenServer.Behaviour
+	use ExActor
 
-	@doc false
-	def start_link do
-		:gen_server.start_link(__MODULE__, [], [])
-	end
+	alias Alembic.ClientSupervisor, as: ClientSup
+	alias Alembic.Config
+	alias Alembic.TCPServer, as: Server
+	alias Socket.TCP
 
 	@doc """
-	Starts the TCP server and spawns an acceptor process listening for incoming
-	connections on the hostname and port specified by the server config.
+	Starts the TCP server, spawning an acceptor process listening for incoming
+	connections on each port associated with a client type in the config.
 	"""
-	def init(_args) do
-		config = Alembic.Config.get
-		listening = Socket.TCP.listen(local: [address: config[:host], port: config[:port]])
-		server_pid = self
-		spawn fn ->
-			acceptor(listening, server_pid)
+	definit _ do
+		server = self
+		host = Config.get[:hostname]
+		Enum.each Config.get[:client_types], fn(client) ->
+			lsocket = TCP.listen(local: [address: host, port: client[:port]])
+			spawn fn ->
+				acceptor(server, client[:name], lsocket)
+			end
 		end
 	end
 
@@ -30,9 +32,9 @@ defmodule Alembic.TCPServer do
 	Handles a new connection by spawning a new client process and directing all
 	future incoming traffic on the specified socket to that process.
 	"""
-	def handle_cast({:connect, socket}, state) do
-		Alembic.ClientSupervisor.spawn_client(socket)
-		{:noreply, state}
+	defcast connect(name, socket) do
+		ClientSup.spawn_client(name, socket)
+		:ok
 	end
 
 	@doc """
@@ -40,11 +42,11 @@ defmodule Alembic.TCPServer do
 	creates a new socket object for communication with that client and notifies
 	the main server process of the existence of the new connection.
 	"""
-	defp acceptor(listening, pid) do
-		case Socket.TCP.accept(listening) do
+	defp acceptor(server, name, lsocket) do
+		case TCP.accept(lsocket) do
 			{:ok, socket} ->
-				:gen_server.cast(pid, {:connect, socket})
-				acceptor(listening, pid)
+				Server.connect(server, name, socket)
+				acceptor(server, name, lsocket)
 			error ->
 				error
 		end
