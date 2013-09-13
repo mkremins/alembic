@@ -10,8 +10,8 @@ defmodule Alembic.Config do
 	Initializes the configuration object with the contents of the
 	`#{ALEMBIC_ROOT}/config.exs` file on disk.
 	"""
-	def init(_args) do
-		initial_state(read "./config.exs")
+	definit _ do
+		read "./config.exs"
 	end
 
 	@doc """
