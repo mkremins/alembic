@@ -39,7 +39,6 @@ defmodule Alembic.TCPServer do
 	"""
 	defcast connect(name, socket) do
 		ClientSup.spawn_client(name, socket)
-		:ok
 	end
 
 	@doc """
