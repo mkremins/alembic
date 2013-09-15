@@ -16,10 +16,10 @@ defmodule Alembic.Minecraft.Macros do
 		quote do
 			def read_payload!(unquote(id), socket) do
 				payload = Keyword.new
-				lc {key, type} inlist unquote(types) do
+				Enum.each unquote(types), fn({key, type}) ->
 					Keyword.put(payload, key, Protocol.read!(type, socket))
 				end
-				_return = {:ok, payload}
+				{:ok, payload}
 			end
 		end
 	end
