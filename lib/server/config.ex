@@ -31,7 +31,7 @@ defmodule Alembic.Config do
 		filename = Path.expand(filename)
 		case File.read(filename) do
 			{:ok, binary} ->
-				Code.eval_string(binary) |> elem(0)
+				Code.eval_string(binary) |> elem(1)
 			{:error, :enoent} ->
 				write(filename, defaults)
 			{:error, reason} ->
@@ -58,10 +58,10 @@ defmodule Alembic.Config do
 	"""
 	defp defaults do
 		[ hostname: "127.0.0.1",
-	      client_types: [
-	      	[name: "Minecraft", port: 25565]
-	      ],
-	      plugins: ["./plugins"] ]
+		  client_types: [
+		  	[name: "Minecraft", port: 25565]
+		  ],
+		  plugins: ["./plugins"] ]
 	end
 
 	@doc """
