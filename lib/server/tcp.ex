@@ -13,9 +13,7 @@ defmodule Alembic.TCPServer do
 
 	use ExActor
 
-	alias Alembic.ClientSupervisor, as: ClientSup
 	alias Alembic.Config
-	alias Alembic.TCPServer, as: Server
 	alias Socket.TCP
 
 	@doc """
@@ -38,7 +36,7 @@ defmodule Alembic.TCPServer do
 	future incoming traffic on the specified socket to that process.
 	"""
 	defcast connect(name, socket) do
-		ClientSup.spawn_client(name, socket)
+		Alembic.ClientSupervisor.spawn_client(name, socket)
 	end
 
 	@doc """
@@ -49,7 +47,7 @@ defmodule Alembic.TCPServer do
 	defp acceptor(server, name, lsocket) do
 		case TCP.accept(lsocket) do
 			{:ok, socket} ->
-				Server.connect(server, name, socket)
+				connect(server, name, socket)
 				acceptor(server, name, lsocket)
 			error ->
 				error
