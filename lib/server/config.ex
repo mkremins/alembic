@@ -45,7 +45,11 @@ defmodule Alembic.Config do
 	"""
 	defp write(filename, config) do
 		filename = Path.expand(filename)
-		case File.write(filename, inspect config) do
+		content = lc {option, value} inlist config do
+			atom_to_binary(option) <> " = " <> inspect(value) <> "\n"
+		end
+		IO.puts list_to_bitstring(content)
+		case File.write(filename, content) do
 			:ok ->
 				config
 			{:error, reason} ->
