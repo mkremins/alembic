@@ -11,7 +11,8 @@ defmodule Alembic.Mixfile do
   end
 
   def application do
-    [ mod: {Alembic, []} ]
+    [ applications: [:socket],
+      mod: {Alembic, []} ]
   end
 
   defp deps do
