@@ -10,18 +10,29 @@ defmodule Alembic.PluginLoader do
 	alias Alembic.Config
 
 	@doc """
-	Initializes the plugin loader.
+	Initializes the plugin loader, attempting to load plugins from each of the
+	plugin directories defined in the config file. Once loaded, each plugin is
+	added to a dict mapping filenames to plugin callback modules; this dict is
+	used as the plugin loader's internal state.
 	"""
 	definit _ do
-		lc dirname inlist Config.get[:plugins] do
-			{:ok, plugins} = load_plugins(dirname)
-			{dirname, plugins}
+		plugins = HashDict.new
+		Enum.each Config.get[:plugins], fn(dirname) ->
+			case load_plugins(dirname) do
+				{:ok, loaded} ->
+					plugins = Dict.merge(plugins, loaded)
+				{:error, reason} ->
+					nil # TODO: log the error to console?
+			end
 		end
+		plugins
 	end
 
 	@doc """
 	Loads the plugin defined by the file at the specified path. Returns
-	`{:ok, module}` on success, `{:error, reason}` on failure.
+	`{:ok, module}` on success, `{:error, reason}` on failure. In the case of
+	success, `module` is the callback module that implements the
+	`Alembic.Plugin` behaviour on behalf of the loaded plugin.
 	"""
 	def load_plugin(filename) do
 		filename = Path.expand(filename)
@@ -40,8 +51,8 @@ defmodule Alembic.PluginLoader do
 
 	@doc """
 	Loads every plugin in the specified directory by calling `load_plugin/1`
-	on every file in the directory in turn. Returns `{:ok, modules}` on
-	success, `{:error, reason}` on failure. In the case of success, `modules`
+	on every file in the directory in turn. Returns `{:ok, plugins}` on
+	success, `{:error, reason}` on failure. In the case of success, `plugins`
 	is a Dict mapping each path in the directory to the result of attempting to
 	load the plugin at that path with `load_plugin/1`.
 
@@ -54,9 +65,9 @@ defmodule Alembic.PluginLoader do
 		case File.ls(dirname) do
 			{:ok, files} ->
 				plugins = HashDict.new
-				Enum.each(files, fn(filename) ->
+				Enum.each files, fn(filename) ->
 					plugins = Dict.put(plugins, filename, load_plugin(filename))
-				end)
+				end
 				{:ok, plugins}
 			{:error, reason} ->
 				{:error, reason}
