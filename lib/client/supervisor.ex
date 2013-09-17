@@ -11,7 +11,14 @@ defmodule Alembic.ClientSupervisor do
 		supervise(tree, strategy: :simple_one_for_one)
 	end
 
-	def spawn_client(socket) do
-		# TODO
+	def spawn_client(socket, type) do
+		translator = Module.concat(Alembic.Client, type)
+		case Code.ensure_loaded(translator) do
+			{:module, translator} ->
+				# TODO spawn and begin supervising a new client process
+				translator
+			{:error, reason} ->
+				{:error, reason}
+		end
 	end
 end

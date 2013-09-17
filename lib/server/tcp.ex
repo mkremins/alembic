@@ -26,7 +26,7 @@ defmodule Alembic.TCPServer do
 		Enum.each Config.get[:client_types], fn(client) ->
 			lsocket = TCP.listen(local: [address: host, port: client[:port]])
 			spawn fn ->
-				acceptor(server, client[:name], lsocket)
+				acceptor(server, lsocket, client[:name])
 			end
 		end
 	end
@@ -35,8 +35,8 @@ defmodule Alembic.TCPServer do
 	Handles a new connection by spawning a new client process and directing all
 	future incoming traffic on the specified socket to that process.
 	"""
-	defcast connect(name, socket) do
-		Alembic.ClientSupervisor.spawn_client(name, socket)
+	defcast connect(socket, type) do
+		Alembic.ClientSupervisor.spawn_client(socket, type)
 	end
 
 	@doc """
@@ -44,11 +44,11 @@ defmodule Alembic.TCPServer do
 	creates a new socket object for communication with that client and notifies
 	the main server process of the existence of the new connection.
 	"""
-	defp acceptor(server, name, lsocket) do
+	defp acceptor(server, lsocket, client_type) do
 		case TCP.accept(lsocket) do
 			{:ok, socket} ->
-				connect(server, name, socket)
-				acceptor(server, name, lsocket)
+				connect(server, socket, client_type)
+				acceptor(server, lsocket, client_type)
 			error ->
 				error
 		end
