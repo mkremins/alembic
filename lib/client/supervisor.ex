@@ -15,8 +15,7 @@ defmodule Alembic.ClientSupervisor do
 		translator = Module.concat(Alembic.Client, type)
 		case Code.ensure_loaded(translator) do
 			{:module, translator} ->
-				# TODO spawn and begin supervising a new client process
-				translator
+				:supervisor.start_child(__MODULE__, [socket, translator])
 			{:error, reason} ->
 				{:error, reason}
 		end

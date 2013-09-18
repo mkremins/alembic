@@ -14,7 +14,7 @@ defmodule Alembic.Client do
 	socket and setting up a new State record to hold information about the
 	connected client.
 	"""
-	definit {socket, translator} do
+	definit [socket, translator] do
 		client = self
 		reader = spawn fn ->
 			reader(client, socket, translator)
