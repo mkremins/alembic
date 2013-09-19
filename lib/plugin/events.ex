@@ -5,13 +5,9 @@ defmodule Alembic.EventManager do
 	new events as desired.
 	"""
 
-	@manager __MODULE__
-
-	@doc """
-	Starts the event manager. Returns `{:ok, pid}` on success.
-	"""
+	@doc false
 	def start_link do
-		:gen_event.start_link({:local, @manager})
+		:gen_event.start_link({:local, __MODULE__})
 	end
 
 	@doc """
@@ -19,7 +15,7 @@ defmodule Alembic.EventManager do
 	said event. Returns `:ok` on success.
 	"""
 	def notify(event_type, event_data) do
-		:gen_event.notify(@manager, {event_type, event_data})
+		:gen_event.notify(__MODULE__, {event_type, event_data})
 	end
 
 	@doc """
@@ -27,6 +23,6 @@ defmodule Alembic.EventManager do
 	dispatched by the event manager. Returns `:ok` on success.
 	"""
 	def add_handler(module) do
-		:gen_event.add_handler(@manager, module, [])
+		:gen_event.add_handler(__MODULE__, module, [])
 	end
 end
