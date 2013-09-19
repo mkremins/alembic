@@ -1,4 +1,4 @@
-defmodule Alembic.Minecraft.Protocol do
+defmodule Alembic.Translator.Minecraft do
 	@moduledoc """
 	Translates between packets (as represented internally by Alembic) and the
 	actual, raw data that gets sent over a socket. 
@@ -6,7 +6,7 @@ defmodule Alembic.Minecraft.Protocol do
 
 	@behaviour Alembic.Translator
 
-	alias Alembic.Minecraft.Packets
+	alias Alembic.Translator.Minecraft.Packets
 
 	@doc """
 	Reads the next byte to come over the socket; assumes that byte is a packet

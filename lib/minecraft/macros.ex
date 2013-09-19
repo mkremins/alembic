@@ -1,9 +1,10 @@
-defmodule Alembic.Minecraft.Macros do
+defmodule Alembic.Translator.Minecraft.Macros do
 	@moduledoc """
-	Macros used by other modules in the `Alembic.Minecraft` namespace.
+	Macros used by other modules in the `Alembic.Translator.Minecraft` module
+	namespace.
 	"""
 
-	alias Alembic.Minecraft.Protocol
+	alias Alembic.Translator.Minecraft, as: Translator
 
 	@doc """
 	Defines a packet handler function for the specified packet ID that will
@@ -17,7 +18,7 @@ defmodule Alembic.Minecraft.Macros do
 			def read_payload!(unquote(id), socket) do
 				payload = Keyword.new
 				Enum.each unquote(types), fn({key, type}) ->
-					Keyword.put(payload, key, Protocol.read!(type, socket))
+					Keyword.put(payload, key, Translator.read!(type, socket))
 				end
 				{:ok, payload}
 			end

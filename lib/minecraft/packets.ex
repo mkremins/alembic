@@ -1,11 +1,11 @@
-defmodule Alembic.Minecraft.Packets do
+defmodule Alembic.Translator.Minecraft.Packets do
 	@moduledoc """
 	Contains Elixir-ized definitions of each useful client->server packet type,
 	including the data types to expect when attempting to decode the payload of
 	a packet of that type.
 	"""
 
-	import Alembic.Minecraft.Macros
+	import Alembic.Translator.Minecraft.Macros
 
 	defpacket 0x00, [ keepalive_id: :int ]
 

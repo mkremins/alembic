@@ -22,7 +22,7 @@ defmodule Alembic.ClientSupervisor do
 	socket to communicate with the connected client.
 	"""
 	def spawn_client(socket, type) do
-		translator = Module.concat(Alembic.Client, type)
+		translator = Module.concat(Alembic.Translator, type)
 		case Code.ensure_loaded(translator) do
 			{:module, translator} ->
 				:supervisor.start_child(__MODULE__, [socket, translator])
