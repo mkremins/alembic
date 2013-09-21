@@ -17,7 +17,6 @@ defmodule Alembic.Mixfile do
 
   defp deps do
     [ {:exactor, "0.1",       github: "sasa1977/exactor"},
-      {:ex_doc,  "0.1.0",     github: "elixir-lang/ex_doc"},
       {:socket,  "0.2.0-dev", github: "meh/elixir-socket"} ]
   end
 end
