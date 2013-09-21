@@ -18,7 +18,6 @@ defmodule Alembic.Supervisor do
 		tree = [
 			worker(Alembic.Config, args),
 			worker(Alembic.ClientSupervisor, args),
-			worker(Alembic.EventManager, args, modules: :dynamic),
 			worker(Alembic.PluginManager, args),
 			worker(Alembic.TCPServer, args)
 		]
