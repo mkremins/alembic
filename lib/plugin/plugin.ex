@@ -1,4 +1,11 @@
 defmodule Alembic.Plugin.Behaviour do
+	@moduledoc """
+	Defines the callback functions that the main callback module of each
+	Alembic plugin is expected to implement and provides a `__using__/2` helper
+	macro that plugin authors can use to define fallback implementations of
+	several of these callbacks.
+	"""
+
 	use Behaviour
 
 	alias Alembic.Client
@@ -16,7 +23,7 @@ defmodule Alembic.Plugin.Behaviour do
 			by the server's plugin manager.
 			"""
 			def handle(_request, _client) do
-				:ok
+				:continue
 			end
 
 			@doc """
@@ -41,26 +48,28 @@ defmodule Alembic.Plugin.Behaviour do
 	defcallback alembic_plugin :: [name: String.t, version: String.t]
 
 	@doc """
-	Invoked by the server's plugin manager if this plugin is best-suited, of
-	all currently enabled plugins, to handle this request. Which plugin is
-	best-suited to handle a particular request is determined by the value each
-	plugin returns as a "handle priority" when the request in question is
-	passed to that plugin's implementation of `screen/2`.
+	Invoked by the server's plugin manager when it is this plugin's turn to
+	handle the specified request. Note that one or more other plugins may have
+	already been given an opportunity to handle this request by the time this
+	callback is invoked.
 
-	The value returned by this function is insignificant; this function is
-	always invoked asynchronously, so as to ensure that the process in which
-	the server's plugin manager is running does not become blocked.
+	This function should return either the atom `:continue` (if the request
+	should also be passed down the line for the plugin with the next-highest
+	handle priority to handle) or the atom `:consume` (if no further plugins
+	should be allowed to handle the request).
 	"""
-	defcallback handle(Request.t, pid) :: any
+	defcallback handle(Request.t, pid) :: :continue | :consume
 
 	@doc """
 	Invoked by the server's plugin manager each time a new request is
-	submitted. The value returned by this function is used to determine which
-	of the currently enabled plugins is best-suited to handle the specified
-	request; this function should return either an integer to indicate the
-	strength of this plugin's desire to handle the specified request (with a
-	higher integer denoting a stronger desire to handle said request), or the
-	atom `:ignore` if this plugin does not care about the request.
+	submitted. The value returned by a plugin's implementation of this function
+	when passed a particular request is used to determine when, if ever, the
+	plugin will be given an opportunity to handle that request.
+
+	This function should return either an integer (with a higher integer
+	indicating a stronger interest in being the first plugin to handle the
+	specified request) or the atom `:ignore` (indicating that this plugin has
+	no interest in handling the request at all).
 	"""
 	defcallback screen(Request.t, pid) :: integer | :ignore
 end
