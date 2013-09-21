@@ -19,7 +19,7 @@ defmodule Alembic.Supervisor do
 			worker(Alembic.Config, args),
 			worker(Alembic.ClientSupervisor, args),
 			worker(Alembic.EventManager, args, modules: :dynamic),
-			worker(Alembic.PluginLoader, args),
+			worker(Alembic.PluginManager, args),
 			worker(Alembic.TCPServer, args)
 		]
 		supervise(tree, strategy: :one_for_one)
