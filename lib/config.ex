@@ -28,10 +28,9 @@ defmodule Alembic.Config do
 	default configuration object will be written to that path and returned.
 	"""
 	defp read(filename) do
-		filename = Path.expand(filename)
-		case File.read(filename) do
+		case File.read(Path.expand(filename)) do
 			{:ok, binary} ->
-				Code.eval_string(binary) |> elem(1)
+				elem(Code.eval_string(binary), 1)
 			{:error, :enoent} ->
 				write(filename, defaults)
 			{:error, reason} ->
@@ -44,11 +43,10 @@ defmodule Alembic.Config do
 	Elixir script file.
 	"""
 	defp write(filename, config) do
-		filename = Path.expand(filename)
 		content = lc {option, value} inlist config do
 			atom_to_binary(option) <> " = " <> inspect(value) <> "\n"
 		end
-		case File.write(filename, content) do
+		case File.write(Path.expand(filename), content) do
 			:ok ->
 				config
 			{:error, reason} ->
