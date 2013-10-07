@@ -45,8 +45,7 @@ defmodule Alembic.PluginManager do
   definit _ do
     Enum.map(Config.get[:plugins], &load_plugins/1)
     |> Enum.concat
-    |> Enum.reject(fn(plugin) ->
-      # true if `plugin` should be excluded from final list, else false
+    |> Enum.filter(fn(plugin) ->
       case plugin do
         {:ok, plugin} ->
           true
