@@ -6,7 +6,7 @@ defmodule Alembic.Mixfile do
       version: "0.1.0-dev",
       name: "Alembic",
       source_url: "https://github.com/mkremins/alembic",
-      elixir: "~> 0.10.2",
+      elixir: "~> 0.10.3",
       deps: deps ]
   end
 

@@ -1,4 +1,4 @@
-[ "exactor": {:git, "git://github.com/sasa1977/exactor.git", "a380468012191158d768ada6c604eb0bd2f6610c", []},
+[ "exactor": {:git, "git://github.com/sasa1977/exactor.git", "3b7e81b493362d4356d25b1c22c7da8fdc8a0c2c", []},
   "finalizer": {:git, "git://github.com/meh/elixir-finalizer.git", "9c38d9145824a46c66f1a010e137a953a6c78e04", []},
-  "resource": {:git, "git://github.com/tonyrog/resource.git", "37264ec960263cec0df8d6db0da818297b8d5771", []},
-  "socket": {:git, "git://github.com/meh/elixir-socket.git", "4ebaead373bafad52d81cf55fe617154128bcb68", []} ]
+  "resource": {:git, "git://github.com/tonyrog/resource.git", "b9e1adcadcc8cb59130e0bbecbbe6777bb8d7c78", []},
+  "socket": {:git, "git://github.com/meh/elixir-socket.git", "73eb1f836f6531b9125e8098c19c55d0bb9058ab", []} ]
